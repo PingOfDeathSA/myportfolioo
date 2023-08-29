@@ -1,0 +1,642 @@
+//jshint esversion:6
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const session = require('express-session');
+const passport = require("passport");
+const passportLocalMongoose = require('passport-local-mongoose');
+const MongoStore = require('connect-mongo')(session);
+const LocalStrategy = require('passport-local').Strategy;
+const { Builder, By, Key, until } = require('selenium-webdriver');
+const nodemailer = require('nodemailer');
+require('chromedriver');
+
+mongoose.set('strictQuery', true);
+const app = express();
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
+app.set('trust proxy', 1);
+
+
+app.use(session({
+  secret: 'THeTerminatorIsHere',
+  resave: false,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    collectionName: 'sessions',
+    ttl: 60 * 60 // 1 hour
+  })
+}));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+mongoose.connect('mongodb+srv://PingOfDeathSA:Ronald438@cluster0.kqlfkdc.mongodb.net/PaperPlusDB');
+
+
+
+const userschema = new mongoose.Schema({
+  email: String,
+  password: String,
+});
+const automaildate = new mongoose.Schema({
+  date: {
+    type: Date,
+    required: true,
+    default: Date.now
+  }
+});
+
+userschema.plugin(passportLocalMongoose);
+
+
+const UserModel = mongoose.model("User", userschema);
+
+passport.use(UserModel.createStrategy());
+passport.use(new LocalStrategy({ username: 'email' }, UserModel.authenticate()));
+passport.serializeUser(UserModel.serializeUser());
+passport.deserializeUser(UserModel.deserializeUser());
+
+
+const UserSave = new UserModel({
+  email: "MailUser@gmail.com",
+  password: "testing@443547",
+
+});
+const UserinterestsSchema = mongoose.Schema({
+  user: {
+    type: String || Number,
+  },
+  interest1: {
+    type: String || Number,
+  },
+  interest2: {
+    type: String || Number,
+  },
+  interest3: {
+    type: String || Number,
+  },
+  date: {
+    type: Date,
+    required: true,
+    default: Date.now
+  }
+});
+
+const UserInterestsModel = mongoose.model("User_interest_collec", UserinterestsSchema);
+const AutomailModel = mongoose.model("AAutomail_collec", UserinterestsSchema);
+
+const userInterestsData = [
+  {
+    user: "mailapi348@gmail.com",
+    interest1: "Environmental Science",
+    interest2: "History",
+    interest3: "Political Science",
+  },
+  {
+    user: "ronaldnt8@gmail.com",
+    interest1: "Physics",
+    interest2: "Literature",
+    interest3: "Mathematics",
+  }
+];
+
+// // Save user interests data
+// UserInterestsModel.create(userInterestsData, function(err, results) {
+//   if (err) {
+//     console.error(err);
+//   } else {
+//     console.log("User Interests added");
+//     console.log(results);
+//   }
+// });
+
+const automailDate =
+{
+  Date: Date.now(),
+
+}
+
+
+// AutomailModel.create(automailDate, function(err, results) {
+//   if (err) {
+//     console.error(err);
+//   } else {
+//     console.log("Date added");
+//     console.log(results);
+//   }
+// });
+
+
+app.post('/update-interests', (req, res) => {
+  if (req.isAuthenticated()) {
+    // Retrieve the submitted form data
+    const researchPapers1 = req.body.researchPapers1;
+    const researchPapers2 = req.body.researchPapers2;
+    const researchPapers3 = req.body.researchPapers3;
+  
+    const user = req.user.username;
+  
+    // Update the interests in the database
+    UserInterestsModel.findOneAndUpdate(
+      { user: user },
+      { 
+        interest1: researchPapers1,
+        interest2: researchPapers2,
+        interest3: researchPapers3
+      },
+      { new: true },
+      (err, updatedInterests) => {
+        if (err) {
+          console.log(err);
+          res.redirect('/');
+        } else {
+          // Redirect to the dashboard after updating the interests
+          res.redirect('/Dashboard.html');
+        }
+      }
+    );
+  } else {
+    res.redirect('/');
+  }
+});
+
+
+
+
+app.get("/logout", function (req, res) {
+  req.logOut(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
+
+
+
+
+app.post("/BuyerLogin.html", function (req, res) {
+
+  if (req.isAuthenticated()) {
+    const user = req.user.username;
+
+    Productmodel.find(
+      {},
+      function (err, ProductDetails) {
+        if (err) {
+          console.log(err);
+          res.status(500).send("An error occurred while searching.");
+        } else {
+          console.log("Employee number exits ", ProductDetails);
+
+          res.render("Buyermarket", {
+            Testing: 'testing',
+            Learn: ProductDetails,
+          });
+        }
+      }
+    );
+
+  } else {
+    res.redirect("/")
+  }
+
+
+});
+
+
+app.post("/", function (req, res) {
+  const user = new UserModel({
+    username: req.body.username,
+    password: req.body.password,
+  });
+
+  
+  req.logIn(user, function (err) {
+    const userName = req.user.username;
+    if (err) {
+      console.log(err);
+    } else {
+      passport.authenticate("local")(req, res, function () {
+        UserInterestsModel.find({user: userName}, function (err, usersInterest) {
+          if (err) {
+            console.log(err);
+          } else {
+            res.render("mail", {
+              userInterests: usersInterest,
+            });
+          }
+        });
+      });
+    }
+  });
+}, function(req, res) {
+  res.status(400).send("User not found. Please register a new account.");
+});
+
+
+
+
+
+
+app.get('/welcome.html', (req, res) => {
+
+  if (req.isAuthenticated()) {
+    const user = req.user.username;
+UserModel.find({ email:user }, function (err, userfound) {
+
+  if (err) {
+    console.log(err)
+  } else{
+  
+    res.render("welcome", {
+      listTitle: "Today",
+      user: userfound,
+
+    });
+
+  }
+  
+})
+
+  } else {
+    res.redirect("/")
+  }
+
+});
+
+
+app.get('/Dashboard.html', (req, res) => {
+  if (req.isAuthenticated()) {
+    const user = req.user.username;
+UserModel.find({ email:user }, function (err, userfound) {
+  if (err) {
+    console.log(err)
+  } else{
+    UserInterestsModel.find({ user:user }, function (err, userInterest) {
+
+      if (err) {
+        console.log(err)
+      } else{
+        res.render("mail", {
+          listTitle: "Today",
+          user: userfound,
+          userInterests :userInterest,
+        });
+      }
+      
+    });
+
+
+
+  }
+  
+});
+
+  } else {
+    res.redirect("/")
+  }
+
+});
+
+app.post("/welcomeUpade.html", function (req, res) {
+  if (req.isAuthenticated()) {
+    const user = req.user.username;
+    const interest1 = req.body.researchPapers1;
+    const interest2 = req.body.researchPapers2;
+    const interest3 = req.body.researchPapers3;
+    // Process the selected papers as needed
+    console.log('logged in user:', user);
+    console.log('Selected research papers interest 1:', interest1);
+    console.log('Selected research papers interest 2:', interest2);
+    console.log('Selected research papers interest 3:', interest3);
+    const userInterestsData = {
+      user: user,
+      interest1: interest1,
+      interest2: interest2,
+      interest3: interest3,
+      Date: Date.now(),
+    };
+
+    // Check if the user already has interests
+    UserInterestsModel.findOne({ user: user })
+      .then(existingInterests => {
+        if (existingInterests) {
+          // User already has interests, redirect to dashboard
+          res.redirect("/Dashboard.html");
+        } else {
+          // User doesn't have interests, create new interests
+          UserInterestsModel.create(userInterestsData)
+            .then(results => {
+              console.log("User Interests added");
+              console.log(results);
+              res.redirect("/Dashboard.html");
+            })
+            .catch(err => {
+              console.error(err);
+              // Handle the error and send an appropriate response
+              res.status(500).send(`<div style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 10px; border-radius: 5px; margin-bottom: 20px;"><strong>Error:</strong> ${err}</div>`);
+            });
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        // Handle the error and send an appropriate response
+        res.status(500).send(`<div style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 10px; border-radius: 5px; margin-bottom: 20px;"><strong>Error:</strong> ${err}</div>`);
+      });
+  } else {
+    res.redirect("/");
+  }
+});
+
+
+
+function performFunctionOnMondayMorning() {
+  const currentDate = new Date();
+  const currentDay = currentDate.getDay(); // 0: Sunday, 1: Monday, ..., 6: Saturday
+  const currentHour = currentDate.getHours();
+  const currentMinute = currentDate.getMinutes();
+  
+  if (currentDay === 1 && (currentHour > 8 || (currentHour === 8 && currentMinute >= 30))) {
+    AutomailModel.find({}, function (err, datedata) {
+      if (err) {
+        console.log(err);
+      } else {
+        const formattedDates = datedata.map(dateObj => {
+          const date = dateObj.date;
+          const year = date.getFullYear();
+          const month = date.getMonth() + 1; // Note: Month starts from 0, so add 1 to get the correct month
+          const day = date.getDate();
+        
+          return {
+            year,
+            month,
+            day
+          };
+        });
+        
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1; // Note: Month starts from 0, so add 1 to get the correct month
+        const currentDay = currentDate.getDate();
+        
+        const matchedDates = formattedDates.filter(dateObj => {
+          return (
+            dateObj.year === currentYear &&
+            dateObj.month === currentMonth &&
+            dateObj.day === currentDay
+          );
+        });
+        
+        if (matchedDates.length > 0) {
+          console.log("Emails already sent.");
+          matchedDates.forEach(dateObj => {
+            console.log(`${dateObj.year}-${dateObj.month}-${dateObj.day}`);
+          });
+        } else {
+          console.log("Sending emails...");
+
+          UserInterestsModel.find({}, function (err, users) {
+            if (err) {
+              console.log(err);
+            } else {
+              let UserInterests = [];
+              users.forEach(function (user) {
+                let userInterests = {
+                  user: user.user,
+                  interest1: user.interest1,
+                  interest2: user.interest2,
+                  interest3: user.interest3
+                };
+                UserInterests.push(userInterests);
+              });
+
+              (async () => {
+                try {
+                  const driver = await new Builder().forBrowser('chrome').build();
+                  const base_url = 'https://ieeexplore.ieee.org/search/searchresult.jsp?newsearch=true&queryText=';
+
+                  for (const user of UserInterests) {
+                    const interests = [user.interest1, user.interest2, user.interest3];
+                    const emailContent = [];
+
+                    for (const interest of interests) {
+                      const url = base_url + interest.replace(' ', '%20');
+                      await driver.get(url);
+                      await driver.wait(until.elementLocated(By.className('List-results-items')), 10000);
+                      const listAll = await driver.findElements(By.className('List-results-items'));
+
+                      if (listAll.length > 0) {
+                        const item = listAll[0];
+                        const links = await item.findElements(By.tagName('a'));
+                        const text = await item.getText();
+                        const linkPromises = links.map(async (link) => await link.getAttribute('href'));
+                        const link_1_Details = await Promise.all(linkPromises);
+                        const link_2_Author = link_1_Details.slice(1, 2);
+
+                        const content = {
+                          interest,
+                          paper: text,
+                          detailsLink: link_1_Details[0],
+                          authorLink: link_2_Author[0]
+                        };
+
+                        emailContent.push(content);
+                      }
+                    }
+
+                    console.log(`Sending email to user: ${user.user}`);
+                    console.log(`Interests: ${interests}`);
+                    console.log(`Email Content: `, emailContent);
+
+                    // Generate email body content
+                    let emailBody = `
+                      <html>
+                        <head>
+                          <style>
+                            body {
+                              font-family: Arial, sans-serif;
+                              background-color: #f5f5f5;
+                              padding:                           20px;
+                            }
+                          
+                            .email-header {
+                              background-color: #007bff;
+                              padding: 10px;
+                              color: #fff;
+                            }
+                          
+                            .email-content {
+                              background-color: #fff;
+                              padding: 20px;
+                            }
+                          
+                            .email-interest {
+                              margin-bottom: 20px;
+                            }
+                          
+                            .email-interest-title {
+                              font-weight: bold;
+                              font-size: 16px;
+                            }
+                          
+                            .email-paper {
+                              margin-top: 10px;
+                            }
+                          
+                            .email-paper-title {
+                              font-weight: bold;
+                            }
+                          
+                            .email-paper-link {
+                              margin-top: 5px;
+                            }
+                          
+                            .email-paper-link a {
+                              color: #007bff;
+                            }
+                          
+                            .email-footer {
+                              background-color: #f5f5f5;
+                              padding: 10px;
+                              font-size: 12px;
+                            }
+                          </style>
+                        </head>
+                        <body>
+                          <div class="email-header">
+                            <h1>Weekly Newsletter</h1>
+                          </div>
+                          <div class="email-content">
+                            <h2>Hello ${user.user},</h2>
+                            <p>Here are the latest papers matching your interests:</p>
+        `;
+
+                    emailContent.forEach(content => {
+                      emailBody += `
+                            <div class="email-interest">
+                              <h3 class="email-interest-title">${content.interest}</h3>
+                              <div class="email-paper">
+                                <p class="email-paper-title">${content.paper}</p>
+                                <p class="email-paper-link"><a href="${content.detailsLink}">View Details</a></p>
+                                <p class="email-paper-link"><a href="${content.authorLink}">Author Information</a></p>
+                              </div>
+                            </div>
+                      `;
+                    });
+
+                    emailBody += `
+                          </div>
+                          <div class="email-footer">
+                            <p>This is an automated email. Please do not reply.</p>
+                          </div>
+                        </body>
+                      </html>
+                    `;
+
+                    // Send email to the user with their interests and results
+                    const transporter = nodemailer.createTransport({
+                      service: 'gmail',
+                      auth: {
+                        user: 'mailapi348@gmail.com',
+                        pass: 'lhhoqgnfyjfgpvvg'
+                      }
+                    });
+
+                    const mailOptions = {
+                      from: 'mailapi348@gmail.com',
+                      to: user.user,
+                      subject: 'Your Interests and Results',
+                      html: emailBody
+                      };
+
+                    transporter.sendMail(mailOptions, (error, info) => {
+                      if (error) {
+                        console.error(error);
+                      } else {
+                        console.log(`Email sent to ${user.user}: ${info.response}`);
+                      }
+                    });
+                  }
+
+                  await driver.quit();
+
+                  // After sending emails to all users, add the date to the database
+                  AutomailModel.create({ date: new Date() }, function (err, results) {
+                    if (err) {
+                      console.error(err);
+                    } else {
+                      console.log("Date added");
+                      console.log(results);
+                    }
+                  });
+
+                } catch (error) {
+                  console.error(error);
+                }
+              })();
+            }
+          });
+        }
+      }
+    });
+  } else {
+    console.log("It's not Monday morning, or the time is not yet 8:30 AM on Monday");
+  }
+}
+
+// Call the function
+performFunctionOnMondayMorning();
+
+
+
+
+
+
+app.get("/UseRegister.html", function (req, res) {
+  res.render("registerpage");
+});
+
+app.get("/", function (req, res) {
+  res.render("login");
+});
+
+app.post("/UseRegister.html", function (req, res) {
+  const username = req.body.username;
+
+  // Check if the username already exists in the database
+  UserModel.findOne({ username: username }, function (err, foundUser) {
+    if (err) {
+      console.log(err);
+      res.redirect("/UseRegister.html");
+    } else {
+      if (foundUser) {
+        // Username already exists
+        console.log("Username already exists");
+        res.status(409).send("Username already exists");
+      } else {
+        // Username does not exist, proceed with registration
+        UserModel.register({ username: username }, req.body.password, function (err, user) {
+          if (err) {
+            console.log(err);
+            res.redirect("/UseRegister.html");
+          } else {
+            passport.authenticate("local")(req, res, function () {
+              res.redirect("/welcome.html");
+            });
+          }
+        });
+      }
+    }
+  });
+});
+
+
+
+// Starting Sever
+app.listen(5000, function () {
+  console.log("Server started on port 5000");
+});

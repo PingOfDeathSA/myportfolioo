@@ -1,0 +1,17 @@
+User Registration: Users can register for an account by providing a username, password, and student number.
+
+User Authentication: The application supports user authentication using Passport.js and the local strategy, allowing users to log in with their registered credentials.
+
+User Sessions: The application uses Express.js sessions with session data stored in MongoDB using connect-mongo. This enables the server to maintain session information for authenticated users.
+
+Product Listing: The application provides a "Market" page where users can view a list of products. The products are fetched from the MongoDB database and rendered on the page using EJS templates.
+
+Product Search: Users can search for products based on the product name, price, or details. The application performs a case-insensitive search and returns matching products.
+
+Add New Item: Authenticated users can add new items to the product list by providing details such as the product name, contact number, price, category, and image links. The new item is saved to the MongoDB database and displayed in the product list.
+
+My Items: Authenticated users can view a page that displays the products they have added. This page shows the products specific to the logged-in user.
+
+Delete Item: Authenticated users can delete items from the product list if they are the ones who added them. The item is removed from the database upon deletion.
+
+Logout: Users can log out of their accounts, terminating the session and redirecting them to the home page.

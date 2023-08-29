@@ -1,0 +1,202 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/teachers/Quiztest/add_quiz_generator.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
+
+class AddQuestion1 extends StatefulWidget {
+  final String quizId;
+  AddQuestion1(this.quizId);
+
+  @override
+  _AddQuestion1State createState() => _AddQuestion1State();
+}
+
+class _AddQuestion1State extends State<AddQuestion1> {
+  DatabaseService databaseService = new DatabaseService(uid: '');
+  final _formKey = GlobalKey<FormState>();
+
+  bool isLoading = false;
+  late String TF = 'None';
+  String question = "None",
+      option1 = "None",
+      option2 = "None",
+      option3 = "None",
+      option4 = "None",
+      quizImgUrl = "",
+      GradeNumber = "None",
+      SubjectName = "None";
+
+  uploadQuizData() {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+
+      Map<String, String> questionMap = {
+        "question": question,
+        "option1": option1,
+        "option2": option2,
+        "option3": option3,
+        "option4": option4,
+        "QuizImage": quizImgUrl,
+        "Subject": SubjectName,
+        "Grade": GradeNumber,
+      };
+
+      print("${widget.quizId}");
+      databaseService.addQuestionData(questionMap, widget.quizId).then((value) {
+        question = "";
+        option1 = "";
+        option2 = "";
+        option3 = "";
+        option4 = "";
+        SubjectName = "";
+        GradeNumber = "";
+        setState(() {
+          isLoading = false;
+        });
+      }).catchError((e) {
+        print(e);
+      });
+    } else {
+      print("error is happening ");
+    }
+  }
+
+  String? selectedValue;
+  @override
+  Widget build(BuildContext context) {
+    final List<String> True_or_False = [
+      "true",
+      "false",
+    ];
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: BackButton(
+          color: Colors.black54,
+        ),
+
+        brightness: Brightness.light,
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        //brightness: Brightness.li,
+      ),
+      body: isLoading
+          ? Container(
+              child: Center(child: CircularProgressIndicator()),
+            )
+          : Row(
+              children: [
+                Expanded(
+                  child: Flexible(
+                    child: Container(
+                      width: 2,
+                      child: Form(
+                        key: _formKey,
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 200,
+                              decoration: BoxDecoration(
+                                color: Colors.blueAccent,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: DropdownButtonFormField2(
+                                decoration: InputDecoration(
+                                  //Add isDense true and zero Padding.
+                                  //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.zero,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  //Add more decoration as you want here
+                                  //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                                ),
+                                isExpanded: true,
+                                hint: const Text('Select Your Title',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500)),
+                                icon: const Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.white,
+                                ),
+                                iconSize: 30,
+                                buttonHeight: 60,
+                                buttonPadding:
+                                    const EdgeInsets.only(left: 20, right: 10),
+                                dropdownDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                items: True_or_False.map(
+                                    (item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        )).toList(),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please select Title.';
+                                  }
+                                },
+                                onChanged: (value) {
+                                  TF = value.toString();
+                                },
+                                onSaved: (value) {
+                                  selectedValue = value.toString();
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Container(
+                              height: 50,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                color: Colors.greenAccent,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 20,
+                                  ),
+                                  hintText: 'Enter Full Name',
+                                  hintStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter your Full Name';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  SubjectName = value;
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+    );
+  }
+}

@@ -1,0 +1,33 @@
+            <ul>
+              <li>
+                <strong>Front-end Development:</strong> I am proficient in HTML, CSS, and JavaScript, and have experience in
+                using frameworks like React.js and Bootstrap to create responsive and user-friendly web interfaces. I am skilled
+                in UI design using tools like Figma, Photoshop, and Canvas.
+              </li>
+              <li>
+                <hr>
+                <strong>Back-end Development:</strong> I have worked with Node.js and Express.js to build server-side
+                applications and RESTful APIs. I have experience in database management using SQL, MongoDB, and Mongoose.
+                Additionally, I have integrated user authentication, cookie sessions, and data encryption for secure application
+                development.
+              </li>
+              <hr>
+              <li>
+                <strong>Mobile App Development:</strong> I am proficient in Flutter and Dart, enabling me to develop
+                cross-platform mobile applications with a native-like experience. I have successfully built mobile apps using
+                Flutter and integrated them with Firebase for real-time data synchronization and authentication.
+              </li>
+              <hr>
+              <li>
+                <strong>Version Control and Collaboration:</strong> I am experienced in using Git, GitHub, and Git Bash for
+                version control, allowing for efficient collaboration and seamless project management. I am well-versed in
+                commands like push, clone, fork, and update to ensure smooth development workflows.
+              </li>
+              <hr>
+              <li>
+                <strong>Other Skills:</strong> I have integrated third-party services like Stripe for payment integration and
+                have experience in working with APIs to consume and provide data. I am familiar with database design principles
+                and have created local and cloud-based database solutions using MongoDB. Additionally, I have worked with Sanity
+                Database for content management.
+              </li>
+            </ul> 

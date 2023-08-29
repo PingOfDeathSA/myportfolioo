@@ -1,0 +1,24 @@
+##Inspiration
+The inspiration behind PapersPlus came from my desire to learn more about software development and solve real-world problems. I saw an opportunity to challenge myself by participating in a project that required building a practical application.
+
+##What it does
+PapersPlus is an application that allows users to register and save their details on MongoDB Atlas. During registration, users are required to configure their interests, which are also saved in the database. Users can update their interests at any time. Every Monday, the application fetches research papers from the IEEE website based on users' interests. It then sends the research papers to each user via email, providing information about the paper and a direct link to access it on the IEEE website.
+
+##How we built it
+I built PapersPlus using Node.js as the backend framework. For user authentication, I used Passport.js. User sessions were created using session management techniques. To send emails, I utilized Nodemailer with SMTP. For data modeling, I used Mongoose, and MongoDB was chosen as the database for storage. On the frontend, I employed HTML, CSS, Bootstrap, and embedded JavaScript (EJS) templates.
+
+##Challenges we ran into
+Throughout the development process, I encountered several challenges. One of the main challenges was developing a custom API to fetch data from the IEEE website for each user based on their specific configurations. Additionally, I faced difficulties in implementing Chromedriver in Node.js for automated web scraping. Overcoming these obstacles required extensive research and problem-solving.
+
+##Accomplishments that we're proud of
+I am proud that I completed the PapersPlus application despite initially feeling overwhelmed working on the project alone. Developing my own API to fetch research papers for each user seemed like an insurmountable task at first. However, with perseverance and dedication, I managed to overcome the challenges and complete the project successfully.
+
+##What we learned
+Throughout the development of PapersPlus, I gained valuable knowledge and experience in various areas. I deepened my understanding of software development using Node.js and became proficient in using frameworks and libraries such as Passport.js, Nodemailer, Mongoose, and MongoDB. Additionally, I learned about web scraping techniques and the complexities involved in fetching data from external sources.
+
+##What's next for PapersPlus
+In the future, there are several potential enhancements and features that could be added to PapersPlus. Some possible improvements include:
+Recommendation system: Implementing a recommendation algorithm to suggest relevant research papers based on users' interests and reading history.
+Collaboration features: Introducing collaboration capabilities, such as allowing users to share and discuss papers with their peers.
+Mobile app development: Expanding PapersPlus to include a mobile application for easier access and convenience.
+Overall, PapersPlus has the potential to evolve into a comprehensive platform for researchers and academics, providing a personalized and efficient way to discover and stay updated with the latest research in their fields of interest.

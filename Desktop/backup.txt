@@ -1,0 +1,764 @@
+//jshint esversion:6
+
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const session = require('express-session');
+const passport = require("passport");
+const passportLocalMongoose = require('passport-local-mongoose');
+const MongoStore = require('connect-mongo')(session);
+const { MongoClient } = require('mongodb');
+const LocalStrategy = require('passport-local').Strategy;
+// const encrypt= require("mongoose-encryption");
+// const bcrypt = require("bcrypt");
+// const saltRounds = 10;
+// const date = require(__dirname + "/date.js");
+mongoose.set('strictQuery', true);
+
+
+
+
+const app = express();
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static("public"));
+app.set('trust proxy', 1);
+
+
+app.use(session({
+  secret: 'THeTerminatorIsHere',
+  resave: false,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    collectionName: 'sessions',
+    ttl: 60 * 60 // 1 hour
+  })
+}));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+mongoose.connect('mongodb+srv://PingOfDeathSA:Ronald438@cluster0.kqlfkdc.mongodb.net/FinalschoolDB');
+
+
+
+// Connection URI and database name
+const uri = 'mongodb+srv://PingOfDeathSA:Ronald438@cluster0.kqlfkdc.mongodb.net/FinalschoolDB';
+const dbName = 'FinalschoolDB';
+
+const userschema= new mongoose.Schema({
+  email: String,
+  password: String,
+  TeacherNumber: Number,
+});
+
+
+userschema.plugin(passportLocalMongoose);
+
+
+const UserModel = mongoose.model("User", userschema);
+
+passport.use(UserModel.createStrategy());
+passport.use(new LocalStrategy({ username: 'email' }, UserModel.authenticate()));
+passport.serializeUser(UserModel.serializeUser());
+passport.deserializeUser(UserModel.deserializeUser());
+
+
+var GenerateNumberT = Math.floor(Math.random() * 500) + 100;
+// Combine the year and student number to create the employee number
+var GenTeacherNumber = "2000" + GenerateNumberT;
+const UserSave = new UserModel({
+  username: "mark@school.co.za",
+  password: "testing@443547",
+  TeacherNumber: GenTeacherNumber,
+});
+
+
+const learnerInfoSchema = new mongoose.Schema({
+  StudentNumber: {
+    type: String,
+    required: true
+  },
+  GradeID: {
+    type: String,
+    required: true
+  },
+  subject: {
+    type: [String],
+    required: true
+  },
+  title: {
+    type: String,
+    required: true
+  },
+  age: {
+    type: Number,
+    required: true
+  },
+  Gender: {
+    type: String,
+    required: true
+  },
+  home_address: {
+    type: String || Number,
+    required: true
+  },
+  Gandian_First_Name: {
+    type: String,
+    required: true
+  },
+  Gdian_Lat_Name: {
+    type: String,
+    required: true
+  },
+  Gadian_title: {
+    type: String || Number,
+    required: true
+  },
+  Gadian_email: {
+    type: String,
+    required: true
+  },
+  Gadian_Home_address: {
+    type: String || Number,
+    required: true
+  },
+  Gadiane_Contacts: {
+    type: Number,
+    required: true
+  },
+  OnlineTest: [{
+    Subject_Test: {
+      type: String,
+      required: true
+    },
+    Mark: {
+      type: Number,
+      required: true
+    }
+  }],
+  first_name: {
+    type: String,
+    required: true
+  },
+  last_name: {
+    type: String,
+    required: true
+  },
+  teacher_profile_picture: {
+    type: String,
+    required: true
+  },
+  email_address: {
+    type: String || Number,
+    required: true
+  }
+});
+
+const teacherSchema = new mongoose.Schema({
+  TeacherNumber:{ type: String, required: true},
+  GradeID: {
+    type: [String],
+    required: true
+  },
+  subject: {
+    type: [String],
+    required: true
+  },
+  first_name: {
+    type: String,
+    required: true
+  },
+  last_name: {
+    type: String,
+    required: true
+  },
+  teacher_profile_picture: {
+    type: String,
+    required: true
+  },
+  email_adsress: {
+    type: String || Number,
+    required: true
+  },
+  home_address: {
+    type: String|| Number,
+    required: true
+  },
+  Contact_Details: {
+    type: Number,
+    required: true
+  },
+  title: {
+    type: String,
+    required: true
+  }
+});
+const AnnouceSchema = new mongoose.Schema({
+  AnM: {
+    type: String|| Number,
+    required: true
+  },
+  Date: {
+    type: Date,
+    required: true,
+    default: Date.now
+  }
+  });
+  const TeacherpySchema = new mongoose.Schema({
+    subject : {
+      type: String || Number,
+      required:true
+    },
+    grade_number: {
+      type: String || Number,
+      required:true
+    },
+    teacher_number: {
+      type: String || Number,
+      required:true
+    },
+    honorifi: {
+      type: String || Number,
+      required:true
+    },
+    
+    first_name: {
+      type: String || Number,
+      required:true
+    },
+    last_name: {
+      type: String || Number,
+      required:true
+    },
+    Teacher_profile_picture: {
+      type: String || Number,
+      required:true
+    },
+    email_adsress: {
+      type: String || Number,
+      required:true
+    }
+  });
+// const Teacherpymodel = mongoose.model("final_teacher",TeacherpySchema)
+// const TeacherInfomodel = mongoose.model("Teacher_collec", teacherSchema);
+// const LearnerInfomodel = mongoose.model("Leaner_collec", learnerInfoSchema);
+ const Annoucefomodel = mongoose.model("Announc_collec", AnnouceSchema);
+// Loading product data
+
+var GenerateNumber = Math.floor(Math.random() * 500) + 100;
+// Combine the year and student number to create the employee number
+var GenStudentNumber = "2023" + GenerateNumber;
+
+
+
+// const  TearcherSave = new TeacherInfomodel({
+//   GradeID: ["12B", "11F"],
+//   subject: ['Natural Science', 'Technology'],
+//   first_name: 'Mark',
+//   last_name: 'Smith',
+//   teacher_profile_picture: 'https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+//   home_address: "Mashabela",
+//   Contact_Details: "0942383800",
+//   title: "Miss",
+//   email_adsress: 'mark@school.co.za',
+// });
+
+// const LearnerSave = new LearnerInfomodel({
+//   StudentNumber: GenStudentNumber,
+//   GradeID: "9A",
+//   subject: ['Mathematics','English Home Language','IsiZulu First Additional Language','Life Orientation','Social Sciences','Natural Science','Technology','Economic and Management Sciences','Creative Arts'],
+//   title: "Ms",
+//   age: 14,
+//   Gender: 'Female',
+//   home_address: "Soweto",
+//   Gandian_First_Name: "Nomsa",
+//   Gdian_Lat_Name: "Mabena",
+//   Gadian_title: "Mrs",
+//   Gadian_email: "nomsa.mabena@gmail.com",
+//   Gadian_Home_address: "Soweto",
+//   Gadiane_Contacts: "0721110000",
+//   OnlineTest: [
+//     {
+//       Subject_Test: "Mathematics",
+//       Mark: 70 
+//     },
+//     {
+//       Subject_Test: "English Home Language",
+//       Mark: 85 
+//     },
+//     {
+//       Subject_Test: "IsiZulu First Additional Language",
+//       Mark: 55 
+//     },
+//     {
+//       Subject_Test: "Social Sciences",
+//       Mark: 80 
+//     }
+//   ],
+//   first_name: 'Lindiwe',
+//   last_name: 'Mkhize',
+//   teacher_profile_picture: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+//   email_address: 'lindiwe.mkhize@gmail.com'
+// });
+
+
+// TearcherSave.save(function (err) {  
+//           if (err) {
+//             console.log(err);
+//           } else {
+//             console.log("Teacher added");
+//           }
+// });
+// AnnounceSave.save(function (err) {
+//           if (err) {
+//             console.log(err);
+//           } else {
+//             console.log("Announce added");
+//           }
+// });
+// LearnerSave.save(function (err) {
+//           if (err) {
+//             console.log(err);
+//           } else {
+//             console.log("leaerner added");
+//           }
+// });
+
+// const  TearcherSave = new Teacherpymodel({
+//   subject:
+//   "Creative Arts",
+//   grade_number:
+//   8,
+//   teacher_number:
+//   "t6",
+//   honorifi:
+//   "Mr",
+//   first_name:
+//   "George",
+//   last_name:
+//   "Bode",
+//   Teacher_profile_picture:
+//   "https://images.pexels.com/photos/1557843/pexels-photo-1557843.jpeg?aut…",
+//   email_adsress:
+//   "Bode-G@school.co.za"
+// });
+// TearcherSave.save(function (err) {
+//           if (err) {
+//             console.log(err);
+//           } else {
+//             console.log("Announce added");
+//           }
+// });
+
+
+// MongoClient.connect(uri, { useUnifiedTopology: true }, (err, client) => {
+//   if (err) throw err;
+
+//   // Access the database
+//   const db = client.db(dbName);
+
+//   // Access the collection
+//   const collection = db.collection('final_teacher');
+
+//   // Find all documents in the collection
+//   collection.find().toArray((err, documents) => {
+//     if (err) throw err;
+
+//     // Process the documents here
+//     console.log(documents);
+
+//     // Close the connection
+//     client.close();
+//   });
+// });
+
+app.get("/register.html",function(req, res){
+  res.render("registerpage");
+});
+app.post("/register.html",function(req, res){
+
+  UserModel.register({username: req.body.username, TeacherNumber: GenTeacherNumber, }, req.body.password, function (err,user) {
+    if(err){
+      console.log(err);
+      res.redirect("/register.html");
+    } else {
+      passport.authenticate("local")(req, res, function(){
+        res.redirect("/welcome.html");
+      })
+      
+    }
+  });
+});
+
+app.get("/welcome.html", function (req, res) {
+  if (req.isAuthenticated()){
+    TeacherInfomodel.find(
+      { },
+      function (err, EmployeeDetails) {
+      if (err) {
+        console.log(err) 
+      } else {
+        //  console.log(EmployeeDetails)
+      }
+      res.render("welecome",
+    );
+    });
+
+  } else {
+    res.redirect("/")
+  }
+  
+})
+app.post("/", function(req, res){
+  const user = new UserModel({
+    username: req.body.username,
+    password: req.body.password,
+  })
+  TeacherUsername = user.username
+  console.log("user is" ,TeacherUsername);
+
+
+  req.logIn( user, function (err) {
+    if(err){
+      console.log(err)
+    } else {
+      passport.authenticate("local")(req, res, function () {
+        MongoClient.connect(uri, { useUnifiedTopology: true }, (err, client) => {
+          if (err) throw err;
+        
+          // Access the database
+          const db = client.db(dbName);
+        
+          // Access the collection
+          const collection = db.collection('final_teacher');
+        
+          // Find all documents in the collection
+          collection.find({ email_adsress: TeacherUsername }).toArray((err, TeacherDetails) => {
+            if (err){
+              console.log(err)
+            } else{
+              console.log("Teacher Details is", TeacherDetails);
+        
+            let TeacherGrade = '';
+            let TeacherSubjects ='';
+            TeacherDetails.forEach((teacher) => {
+              TeacherGrade = teacher.grade_number;
+              TeacherSubjects = teacher.subject
+            
+            });
+        
+            Annoucefomodel.find({}, function (err, Annoces) {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log(Annoces);
+              }
+              console.log('checking data for teacher subject', TeacherGrade)
+              console.log("Teacher suject is length",TeacherSubjects.length)
+
+    // Create an empty array to store the results of each query
+
+// let allLearnerDetails = [];
+
+// Iterate over all the subjects in the TeacherGrade array
+// for (let i = 0; i < TeacherGrade.length; i++) {
+MongoClient.connect(uri, { useUnifiedTopology: true }, (err, client) => {
+  if (err) throw err;
+
+  // Access the database
+  const db = client.db(dbName);
+
+  // Access the collection
+  const collection = db.collection('learners_py');
+
+  // Find all documents in the collection
+  collection.find({grade_number: TeacherGrade,}).toArray((err, documents) => {
+    if (err) {
+      console.log(err)
+    } else {
+          // Process the documents here
+    // console.log(documents);
+
+    // Close the connection
+    // client.close();
+      if (err) {
+        res.render("error", {
+          message: "Cannot load data, no learners found. Please contact your administrator."
+        });
+      } else {
+        res.render("list", {
+          listTitle: "Today",
+          TeacherSub : TeacherSubjects,
+          Teacher: TeacherDetails,
+          Ann: Annoces,
+          Learner: documents,
+        });
+      }
+    }
+
+
+  });
+
+});
+
+
+// }
+
+            });
+
+
+            }
+        
+        
+          });
+        });
+
+
+        
+      })
+    }
+  })
+  });
+
+
+
+// app.get("/main",function(req, res){
+//   TeacherInfomodel.find(
+//     { },
+//     function (err, TeacherDetails) {
+//     if (err) {
+//       console.log(err) 
+//     } else {
+//          console.log("",TeacherDetails)
+//     }
+//     LearnerInfomodel.find({}, function(err, LeanerDetails) {
+      
+//       if (err) {
+//         console.log(err);
+//         res.render("error"); // or some other error handling mechanism
+//       } else {
+//         console.log(LeanerDetails);
+//         let Subject = '';
+
+//         LeanerDetails.forEach(element => {
+//           NumLearners = element._id;
+//           console.log(NumLearners);
+//         });
+//         res.render("list", {
+//           listTitle: "Today",
+//         NumL: NumLearners,
+//           Teacher: TeacherDetails,
+//           Learner: LeanerDetails,
+          
+
+//         });
+//       }
+//     });
+
+//     //  res.render("list", {listTitle: "Today", Learn: ProductDetails,
+//     // });
+  
+//   }) 
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Starting Sever
+app.listen(5000, function() {  
+  console.log("Server started on port 5000");
+});
+
+app.post('/search', (req, res) => {
+  const searchQuery = req.body.searchQueryName.toLowerCase();
+
+  console.log("Search Query: ", searchQuery);
+  Payrollsmodel.find(
+    { $or: [
+      { Employee_LastName: { $regex: searchQuery, $options: "i" } },
+      { Employee_FirstName: { $regex: searchQuery, $options: "i" } },
+      { Employee_Department: { $regex: searchQuery, $options: "i" } }
+    ]},
+    function (err, EmployeeDetails) {
+      if (err) {
+        console.log(err);
+        res.status(500).send("An error occurred while searching.");
+      } else {
+        // console.log(EmployeeDetails);
+        res.render("list", { listTitle: "Today", Learn: EmployeeDetails });
+      }
+    }
+  );
+});
+//Payroll search
+
+
+
+app.get('/das', (req, res) => {
+  Payrollsmodel.find(
+    { },
+    function (err, EmployeeDetails) {
+    if (err) {
+      console.log(err) 
+    } else {
+      //  console.log(EmployeeDetails)
+      
+    }
+    res.render("userpage", {listTitle: "Today", Learn: EmployeeDetails,
+    
+  
+  });
+  });
+});
+
+
+app.get("/logout", function(req, res){
+  req.logOut(function(err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
+
+
+app.get("/",function(req, res){
+  res.render("login");
+});
+
+
+
+
+//Geeting data from DB to Front End to mian leavedays page
+app.get("/LeavedaysAdmin.html",function(req, res){
+  if (req.isAuthenticated()){
+    Payrollsmodel.find(
+      { },
+      function (err, EmployeeDetails) {
+      if (err) {
+        console.log(err) 
+      } else {
+        //  console.log(EmployeeDetails)
+      }
+      res.render("leavedays", {listTitle: "Today", Learn: EmployeeDetails,
+    });
+    });
+
+  } else {
+    res.redirect("/")
+  }
+});
+
+//Geeting data from DB to Front End to mian page
+app.get('/dashboard.html', (req, res) => {
+  if (req.isAuthenticated()){
+    
+    Payrollsmodel.find({}, function (err, EmployeeDetails) {
+      if (err) {
+        console.log(err);
+      } else { 
+         const user = req.user;
+
+         UserModel.find({ email: user.email }, function (err, users) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log("Number of users:", users.length);
+            console.log("Logged-in user email:", user);
+
+    res.render("list", {
+      listTitle: "Today",
+      Learn: EmployeeDetails,
+      userEmail: user,
+      userEmailHTML: user.username,
+      ComapanyNmae: user.companyname,
+    });
+          }
+        });
+      }
+    });
+
+  } else {
+    res.redirect("/")
+  }
+});
+
+
+
+
+
+//Geeting data from DB to Front End to Add new employee
+app.get('/Payroll.html', (req, res) => {
+  if (req.isAuthenticated()){
+    Payrollsmodel.find(
+      { },
+      function (err, EmployeeDetails) {
+      if (err) {
+        console.log(err) 
+      } else {
+        //  console.log(EmployeeDetails)
+      }
+      res.render("payroll", {listTitle: "Today", Learn: EmployeeDetails,
+    });
+    });
+
+  } else {
+    res.redirect("/")
+  }
+});
+
+//Geeting data from DB to Front End to Add new employee
+app.get('/AddNewEmployee.html', (req, res) => {
+  if (req.isAuthenticated()){
+    Payrollsmodel.find(
+      { },
+      function (err, EmployeeDetails) {
+      if (err) {
+        console.log(err) 
+      } else {
+        //  console.log(EmployeeDetails)
+      }
+      res.render("Addnewemployee", {listTitle: "Today", Learn: EmployeeDetails,
+    });
+    });
+
+  } else {
+    res.redirect("/")
+  }
+});
+
+// getting previous payroll commits from database'
+app.get('/PayrollCommits.html', (req, res) => {
+
+  if (req.isAuthenticated()){
+    PayrollModelRollouts.find(
+      { },
+      function (err, EmployeeDetails) {
+      if (err) {
+        console.log(err) 
+      } else {
+        //  console.log(EmployeeDetails)
+      }
+      res.render("payrollcommits", {listTitle: "Today", Learn: EmployeeDetails,
+      
+    
+    });
+    });
+
+  } else {
+    res.redirect("/")
+  }
+});
+
+

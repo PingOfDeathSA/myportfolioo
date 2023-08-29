@@ -1,0 +1,30 @@
+from selenium import webdriver
+from bs4 import BeautifulSoup
+import pandas as pd
+import requests
+from PIL import Image
+import requests
+from pprint import pprint
+
+class Secret:
+    api_key = "200ac476aa1350e0e031e29b911b3595f297dd1c"
+
+headers = {
+    'Content-Type': 'application/json'
+}
+
+ticker = 'EURUSD'
+# format is year-date-day
+StartDate = "2023-04-25"
+
+requestResponse = requests.get(
+    f"https://api.tiingo.com/tiingo/fx/prices?tickers={ticker}&startDate={StartDate}&resampleFreq=5min&token={Secret.api_key}",
+    headers=headers
+)
+
+data = requestResponse.json()
+pprint(data[:1])
+
+# Uncomment the following lines if you want to save the data to a CSV file
+df = pd.DataFrame.from_dict(data)
+df.to_csv(f"{ticker}.csv")

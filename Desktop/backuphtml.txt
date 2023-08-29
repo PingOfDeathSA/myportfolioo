@@ -1,0 +1,351 @@
+<%- include("header") -%>
+<head>
+  <link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+  <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+  <link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+  <link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+  <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+  <meta name="theme-color" content="#712cf9">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="stylesheet" href="public/css/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+
+</head>
+
+<section aria-colspan="main">
+
+
+  <!doctype html>
+  <html lang="en">
+
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+      <meta name="generator" content="Hugo 0.104.2">
+      <title>SYGE</title>
+  
+      <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/dashboard/">
+      <link rel="stylesheet" href="style.css">
+  
+      <link rel="stylesheet" href="public/css/style.css">
+      
+  
+      
+  
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  
+      <!-- Favicons -->
+ 
+  
+      
+      <!-- Custom styles for this template -->
+      <link href="style.css" rel="stylesheet">
+    </head>
+    <body>
+      
+      <nav class="topNavcolor navbar navbar-expand-lg ">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+      
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="#"  style="color: aliceblue; font-weight:400">SmartConnect</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#"  style="color: aliceblue; font-weight:400">Welcome: 
+         <% Teacher.forEach(function(item) { %>           
+          <span><%= item.title %></span>   <span><%= item.first_name %></span>  <span><%= item.last_name %></span> </h5>
+                  <% }); %>
+              </a>
+            </li>
+          </ul>
+       
+        </div>
+      </nav>
+  
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebarMenu" class=" col-md-3 col-lg-2 d-md-block sidebar collapse" style="padding: 0%;">
+        <div class="sidecolor position-sticky pt-3 sidebar-sticky sideM">
+          <ul class="nav flex-column">
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+             
+              <a class="link-secondary" href="#" aria-label="Add a new report">
+                <span data-feather="plus-circle" class="align-text-bottom"></span>
+              </a>
+            </h6>
+            <li class="nav-item ">
+              <a class="nav-link" aria-current="page" href="/"  style="color: rgb(24, 12, 8); font-weight:400">
+                <span data-feather="home" class="align-text-bottom"></span>
+                Dashboard
+              </a>
+            </li>
+           
+            <li class="nav-item">
+
+              <a class="nav-link" href="AddNewEmployee.html"  style="color: aliceblue; font-weight:400">
+                <span data-feather="file" class="align-text-bottom"></span>
+                My Leaners
+              
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/Payroll.html"  style="color: aliceblue; font-weight:400">
+                <span data-feather="shopping-cart" class="align-text-bottom"></span>
+               My Profile
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/LeavedaysAdmin.html" style="color: aliceblue; font-weight:400">
+                <span data-feather="users" class="align-text-bottom" ></span>
+              Online Exam
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/PayrollCommits.html"  style="color: aliceblue; font-weight:400">
+                <span data-feather="users" class="align-text-bottom"></span>
+                Content
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/PayrollCommits.html"  style="color: aliceblue; font-weight:400">
+                <span data-feather="users" class="align-text-bottom"></span>
+                Recommendations
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/PayrollCommits.html"  style="color: aliceblue; font-weight:400">
+                <span data-feather="users" class="align-text-bottom"></span>
+                TimeTable
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/PayrollCommits.html"  style="color: aliceblue; font-weight:400">
+                <span data-feather="users" class="align-text-bottom"></span>
+                TimeTable
+              </a>
+            </li>
+           
+            <span>Administration</span>
+            <li class="nav-item">
+              <a class="nav-link" href="/PayrollCommits.html"  style="color: aliceblue; font-weight:400">
+                <span data-feather="users" class="align-text-bottom">
+                Set Timetable
+              </a>
+            </li>
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/PayrollCommits.html"  style="color: aliceblue; font-weight:400">
+                <span data-feather="users" class="align-text-bottom"></span>
+             Create Announcement
+              </a>
+
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/PayrollCommits.html"  style="color: aliceblue; font-weight:400">
+                <span data-feather="users" class="align-text-bottom"></span>
+            Set Test
+              </a>
+
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/PayrollCommits.html"  style="color: aliceblue; font-weight:400">
+                <span data-feather="users" class="align-text-bottom"></span>
+             Add to Library Content
+              </a>
+
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/PayrollCommits.html"  style="color: aliceblue; font-weight:400">
+                <span data-feather="users" class="align-text-bottom"></span>
+             Add Content
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/PayrollCommits.html"  style="color: aliceblue; font-weight:400">
+                <span data-feather="users" class="align-text-bottom"></span>
+                Transcripts
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/PayrollCommits.html"  style="color: aliceblue; font-weight:400">
+                <span data-feather="users" class="align-text-bottom"></span>
+              Market Place 
+              </a>
+            </li>
+          
+          </ul>
+  
+        </div>
+      </nav>
+  
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" >
+        <div class="row">
+          <div class="col-sm-12">  <h1 class="">Dashboard</h1></div>
+         
+        </div>
+   
+     
+     
+              
+            
+      
+      
+        
+        <!-- <div class="row">
+          <div class="EmployeesHeader col-8">Sammary</div>
+          <div class="col-4"><form class="form-inline" action="/search" method="post" > -->
+            <!-- <div class="input-group">
+              <label for="search-input" class="sr-only">Search</label>
+              <input type="text" id="search-input" class="form-control" name="searchQueryName" placeholder="Search" autocomplete="on" required>
+              <div class="input-group-append">
+                <button class="btn btn-dark" type="submit" aria-label="Search">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div> -->
+          <!-- </form>
+          
+          
+          
+          </div>
+        </div> -->
+
+        <% Teacher.forEach(function(item) { %>
+        <div class="row">
+         
+          <div class=" col-12 col-md-3" ><div class="" style="width: 18rem;">
+           
+            <div class=" Cards1">
+             <span><img class="TeacherPro2" src="<%= item.teacher_profile_picture %>" style="margin-bottom:10px;" alt=""></span> 
+            <span style="margin-left: 5px;">
+              <span><%= item.title %> </span> <span><%= item.first_name %></span>
+                <span><%= item.last_name %></span></span>
+            
+              
+            </div>
+          </div> 
+        </div>
+
+
+        <div class="Cards col-12 col-md-3"><div class="" style="width: 18rem;">
+         
+          <div class="Cards2">
+            <span><img class="Fullprofile" src="images/megaphone.png" alt="">  </span> 
+            <span class="card-title"><h4 style="display: inline;"> Announcements</h4></span>
+           
+            <p>  <span class="badge badge-danger"><%= Ann.length %></span></p>
+       
+          </div>
+        </div> 
+      </div>
+
+      <% }); %>
+      <div class="Cards col-12 col-md-3"><div class="" style="width: 18rem;">
+
+        <div class="Cards3 ">
+          <span><img class="Fullprofile" src="images/megaphone.png" alt="">  </span> 
+          <span class="card-title"><h4 style="display: inline;">My Suject</h4></span>
+           
+          <p>  <span class="badge badge-danger"><%= TeacherSub.length %></span></p>
+         
+     
+        </div>
+      </div> 
+    </div>
+
+
+    
+    <div class="Cards col-12 col-md-3"><div class="" style="width: 18rem;">
+
+      <div class="Cards4 ">
+        <span><img class="Fullprofile" src="images/megaphone.png" alt="">  </span> 
+        <span class="card-title"><h4 style="display: inline;">My Leaners</h4></span>
+       
+        <p> 
+          <h6><%= Learner.length %></h6>
+       
+        
+      </div>
+    </div> 
+  </div>
+
+    
+    
+
+
+
+
+
+        </div>
+        <div class="row" style="margin-top: 30px;">
+          <div class="col-6 col-md-6"> 
+
+            <div class="alert alert-info" role="alert">
+          
+              <h4 class="alert-heading">Important Announcement!       <span class="badge badge-danger"><%= Ann.length %></span></h4>
+     
+          </div>
+          <% Ann.forEach(function(item) { %>
+            <div class="announ"><%= item.AnM %></div>
+         
+            <% }); %>
+
+          </div>
+          <div class="col-6 col-md-6">    
+             
+         </div>
+      
+        </div>
+        <div class="chart">
+          <div class="bar-wrapper">
+            <div class="bar" style="height: 34%;"></div>
+            <span class="label">Learners Passed</span>
+          </div>
+          <div class="bar-wrapper">
+            <div class="bar" style="height: 66%;"></div>
+            <span class="label">Learners Failed</span>
+          </div>
+          <div class="total">
+            <span class="label">Total Learners:</span>
+            <span class="value">100</span>
+          </div>
+        </div>
+        
+
+        
+        <!-- Modal dialog -->
+        <script src="/js/script.js"></script>
+         </body>
+      
+      
+
+
+<!-- Main content -->
+
+
+
+
+  
+
+ <!-- this below is for connectinf the pages -->
+ 
+
+
+
+</html>

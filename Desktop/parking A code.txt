@@ -1,0 +1,536 @@
+              Transform.rotate(
+                angle: 0,
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 20,
+                            color: Colors.orange,
+                            width: navbarsize,
+                          ),
+                          // Top left Raws
+                          Row(
+                            children: List.generate(12, (index) {
+                              if (TopRaw_leftIndexs.contains(index)) {
+                                final specificIndextopleft =
+                                    TopRaw_leftIndexs.indexOf(index);
+                                final number = TopRaw_leftspecificNumbers[
+                                    specificIndextopleft];
+
+                                return Styling(
+                                    context, _buildParkingAService(number));
+                              } else {
+                                return Styling(
+                                    context,
+                                    Center(
+                                      child: Text(
+                                        'No Parking Number',
+                                        style: TextStyle(fontSize: 10),
+                                      ),
+                                    ));
+                              }
+                            }),
+                          ),
+                          Container(
+                            height: 20,
+                            color: Colors.red,
+                            width: navbarsize - 10,
+                          ),
+                          // Top right Raws
+                          Row(
+                            children: List.generate(15, (index) {
+                              if (TopRaw_RightIndexs.contains(index)) {
+                                final specificIndexTopRight =
+                                    TopRaw_RightIndexs.indexOf(index);
+                                final number = TopRawRightspecificNumbers[
+                                    specificIndexTopRight];
+
+                                return Styling(
+                                    context, _buildParkingAService(number));
+                              } else {
+                                return Styling(
+                                    context,
+                                    Center(
+                                      child: Text(
+                                        'No Parking Number',
+                                        style: TextStyle(fontSize: 10),
+                                      ),
+                                    ));
+                              }
+                            }),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: List.generate(2, (index) {
+                              if (FaceleftIndexs.contains(index)) {
+                                final specificIndex_Face_Left =
+                                    FaceleftIndexs.indexOf(index);
+                                final number = Face_leftspecificNumbers[
+                                    specificIndex_Face_Left];
+
+                                return Styling2(
+                                  _buildParkingAService(number),
+                                );
+                              } else {
+                                return Styling2(Center(
+                                  child: Text(
+                                    'No Parking Number',
+                                    style: TextStyle(fontSize: 10),
+                                  ),
+                                ));
+                              }
+                            }),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              top: 30.0,
+                              left: width < 768 ? 243 : 1356,
+                              // left: 1356,
+                            ),
+                            child: Row(
+                              children: List.generate(3, (index) {
+                                if (Face_Up_Below_to_Left_Indexs.contains(
+                                    index)) {
+                                  final specificIndex_Face_Up =
+                                      Face_Up_Below_to_Left_Indexs.indexOf(
+                                          index);
+                                  final number =
+                                      Face_Up_Below_to_Left_specificNumbers[
+                                          specificIndex_Face_Up];
+
+                                  return Styling4(
+                                      context, _buildParkingAService(number));
+                                } else {
+                                  return Styling4(
+                                      context,
+                                      Center(
+                                        child: Text(
+                                          'No Parking Number',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                      ));
+                                }
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            color: color4,
+                            height: 10,
+                            width: navbarsize,
+                          ),
+                          Row(
+                            children: [
+                              Row(
+                                  children: List.generate(9, (index) {
+                                if (Face_Up_Below_to_Left_Indexs.contains(
+                                    index)) {
+                                  final specificIndex_Face_Up =
+                                      Face_Up_Below_to_Left_Indexs.indexOf(
+                                          index);
+                                  final number =
+                                      Face_Up_Below_to_Left_specificNumbers[
+                                          specificIndex_Face_Up];
+
+                                  return Styling3(
+                                    _buildParkingAService(number),
+                                  );
+                                } else {
+                                  return Styling3(Center(
+                                    child: Text(
+                                      'No Parking Number',
+                                      style: TextStyle(fontSize: 10),
+                                    ),
+                                  ));
+                                }
+                              })),
+                              Container(
+                                height: 10,
+                                color: Colors.black,
+                                width: navbarsize - 7,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Row(
+                                              children:
+                                                  List.generate(1, (index) {
+                                            if (Face_Up_Below_to_Left_Indexs
+                                                .contains(index)) {
+                                              final specificIndex_Face_Up =
+                                                  Face_Up_Below_to_Left_Indexs
+                                                      .indexOf(index);
+                                              final number =
+                                                  Face_Up_Below_to_Left_specificNumbers[
+                                                      specificIndex_Face_Up];
+
+                                              return Styling3(
+                                                _buildParkingAService(number),
+                                              );
+                                            } else {
+                                              return Styling3(Center(
+                                                child: Text(
+                                                  'No Parking Number',
+                                                  style:
+                                                      TextStyle(fontSize: 10),
+                                                ),
+                                              ));
+                                            }
+                                          })),
+                                          Container(
+                                            height: 10,
+                                            color: Colors.pink,
+                                            width: 50,
+                                          ),
+                                          Row(
+                                              children:
+                                                  List.generate(13, (index) {
+                                            if (Face_Up_Below_to_Left_Indexs
+                                                .contains(index)) {
+                                              final specificIndex_Face_Up =
+                                                  Face_Up_Below_to_Left_Indexs
+                                                      .indexOf(index);
+                                              final number =
+                                                  Face_Up_Below_to_Left_specificNumbers[
+                                                      specificIndex_Face_Up];
+
+                                              return Styling3(
+                                                _buildParkingAService(number),
+                                              );
+                                            } else {
+                                              return Styling3(Center(
+                                                child: Text(
+                                                  'No Parking Number',
+                                                  style:
+                                                      TextStyle(fontSize: 10),
+                                                ),
+                                              ));
+                                            }
+                                          })),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Container(
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 40,
+                                        ),
+                                        Text('Parking A'),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text('Available Parkings: 15'),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text('Date: $formattedDate'),
+                                      ],
+                                    ),
+                                    width: navbarsize * 3 - 24,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Column(
+                                          children: List.generate(1, (index) {
+                                        if (Face_Up_Below_to_Left_Indexs
+                                            .contains(index)) {
+                                          final specificIndex_Face_Up =
+                                              Face_Up_Below_to_Left_Indexs
+                                                  .indexOf(index);
+                                          final number =
+                                              Face_Up_Below_to_Left_specificNumbers[
+                                                  specificIndex_Face_Up];
+
+                                          return Styling2(
+                                            _buildParkingAService(number),
+                                          );
+                                        } else {
+                                          return Styling2(Center(
+                                            child: Text(
+                                              'No Parking Number',
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                          ));
+                                        }
+                                      })),
+                                      Container(
+                                        width: 10,
+                                        color: Colors.yellowAccent,
+                                        height: 100,
+                                      ),
+                                      Column(
+                                          children: List.generate(2, (index) {
+                                        if (Face_Up_Below_to_Left_Indexs
+                                            .contains(index)) {
+                                          final specificIndex_Face_Up =
+                                              Face_Up_Below_to_Left_Indexs
+                                                  .indexOf(index);
+                                          final number =
+                                              Face_Up_Below_to_Left_specificNumbers[
+                                                  specificIndex_Face_Up];
+
+                                          return Styling2(
+                                            _buildParkingAService(number),
+                                          );
+                                        } else {
+                                          return Styling2(Center(
+                                            child: Text(
+                                              'No Parking Number',
+                                              style: TextStyle(fontSize: 10),
+                                            ),
+                                          ));
+                                        }
+                                      })),
+                                    ],
+                                  ),
+                                  Container(
+                                    height: 10,
+                                    color: Colors.brown,
+                                    width: 151,
+                                  ),
+                                  Row(
+                                      children: List.generate(1, (index) {
+                                    if (Face_Up_Below_to_Left_Indexs.contains(
+                                        index)) {
+                                      final specificIndex_Face_Up =
+                                          Face_Up_Below_to_Left_Indexs.indexOf(
+                                              index);
+                                      final number =
+                                          Face_Up_Below_to_Left_specificNumbers[
+                                              specificIndex_Face_Up];
+
+                                      return Styling5(
+                                        _buildParkingAService(number),
+                                      );
+                                    } else {
+                                      return Styling5(Center(
+                                        child: Text(
+                                          'No Parking Number',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                      ));
+                                    }
+                                  })),
+                                  Container(
+                                    height: 10,
+                                    color: Colors.greenAccent,
+                                    width: 100,
+                                  ),
+                                  Row(
+                                      children: List.generate(12, (index) {
+                                    if (Face_Up_Below_to_Left_Indexs.contains(
+                                        index)) {
+                                      final specificIndex_Face_Up =
+                                          Face_Up_Below_to_Left_Indexs.indexOf(
+                                              index);
+                                      final number =
+                                          Face_Up_Below_to_Left_specificNumbers[
+                                              specificIndex_Face_Up];
+
+                                      return Styling5(
+                                        _buildParkingAService(number),
+                                      );
+                                    } else {
+                                      return Styling5(Center(
+                                        child: Text(
+                                          'No Parking Number',
+                                          style: TextStyle(fontSize: 10),
+                                        ),
+                                      ));
+                                    }
+                                  })),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              color: Color.fromARGB(255, 182, 70, 185),
+                              height: 10,
+                              width: navbarsize * 5 - 140),
+                          Row(
+                              children: List.generate(10, (index) {
+                            if (Face_Up_Below_to_Left_Indexs.contains(index)) {
+                              final specificIndex_Face_Up =
+                                  Face_Up_Below_to_Left_Indexs.indexOf(index);
+                              final number =
+                                  Face_Up_Below_to_Left_specificNumbers[
+                                      specificIndex_Face_Up];
+
+                              return Styling3(
+                                _buildParkingAService(number),
+                              );
+                            } else {
+                              return Styling3(Center(
+                                child: Text(
+                                  'No Parking Number',
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              ));
+                            }
+                          })),
+                          Container(
+                              color: Colors.indigoAccent,
+                              height: 10,
+                              width: 100),
+                          Row(
+                              children: List.generate(6, (index) {
+                            if (Face_Up_Below_to_Left_Indexs.contains(index)) {
+                              final specificIndex_Face_Up =
+                                  Face_Up_Below_to_Left_Indexs.indexOf(index);
+                              final number =
+                                  Face_Up_Below_to_Left_specificNumbers[
+                                      specificIndex_Face_Up];
+
+                              return Styling3(
+                                _buildParkingAService(number),
+                              );
+                            } else {
+                              return Styling3(Center(
+                                child: Text(
+                                  'No Parking Number',
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              ));
+                            }
+                          })),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              color: Colors.green,
+                              height: 10,
+                              width: navbarsize * 4 - 28),
+                          Container(
+                              color: Color.fromARGB(255, 196, 136, 81),
+                              height: 10,
+                              width: 448),
+                          Row(
+                              children: List.generate(2, (index) {
+                            if (Face_Up_Below_to_Left_Indexs.contains(index)) {
+                              final specificIndex_Face_Up =
+                                  Face_Up_Below_to_Left_Indexs.indexOf(index);
+                              final number =
+                                  Face_Up_Below_to_Left_specificNumbers[
+                                      specificIndex_Face_Up];
+
+                              return Styling6(
+                                _buildParkingAService(number),
+                              );
+                            } else {
+                              return Styling6(Center(
+                                child: Text(
+                                  'No Parking Number',
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              ));
+                            }
+                          })),
+                          SizedBox(width: 100),
+                          Row(
+                              children: List.generate(6, (index) {
+                            if (Face_Up_Below_to_Left_Indexs.contains(index)) {
+                              final specificIndex_Face_Up =
+                                  Face_Up_Below_to_Left_Indexs.indexOf(index);
+                              final number =
+                                  Face_Up_Below_to_Left_specificNumbers[
+                                      specificIndex_Face_Up];
+
+                              return Styling6(
+                                _buildParkingAService(number),
+                              );
+                            } else {
+                              return Styling6(Center(
+                                child: Text(
+                                  'No Parking Number',
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              ));
+                            }
+                          })),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(width: navbarsize * 7 - 10),
+                          Row(
+                              children: List.generate(9, (index) {
+                            if (Face_Up_Below_to_Left_Indexs.contains(index)) {
+                              final specificIndex_Face_Up =
+                                  Face_Up_Below_to_Left_Indexs.indexOf(index);
+                              final number =
+                                  Face_Up_Below_to_Left_specificNumbers[
+                                      specificIndex_Face_Up];
+
+                              return Styling7(
+                                _buildParkingAService(number),
+                              );
+                            } else {
+                              return Styling7(Center(
+                                child: Text(
+                                  'No Parking Number',
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              ));
+                            }
+                          })),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),

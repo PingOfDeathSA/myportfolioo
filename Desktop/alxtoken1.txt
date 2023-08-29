@@ -1,0 +1,12 @@
+
+
+
+
+git clone https://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@github.com/PingOfDeathSA/alx-low_level_programming.git
+
+
+
+
+git config --global user.email "ronaldnt8@gmail.com"
+
+git config --global user.name "PingOfDeathSA"

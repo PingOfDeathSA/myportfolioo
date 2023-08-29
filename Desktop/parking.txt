@@ -1,0 +1,48 @@
+            <div class="col-2">
+              <div class="">
+                <% parkingData.forEach(function(parkingItem) { %>
+                  <% if (parkingItem.ParkingNum1 && parkingItem.ParkingNum1.parkingNum === 234) { %>
+                    <div class="parking-space">
+                      <span class="parkingnumber"><%= parkingItem.ParkingNum1.parkingNum %></span>
+                      <% if (parkingItem.ParkingNum1.Status === 'Vacant') { %>
+                        <form action="">
+                          <p class="parkingstatus">Status: <%= parkingItem.ParkingNum1.Status %></p>
+                          <button type="button" class="available" data-toggle="modal" data-target="#editModal<%= parkingItem._id %>">Available</button>
+                          
+                        </form>
+                      <% } else { %>
+                        <form action="">
+                          <p class="parkingstatus">Status: <%= parkingItem.ParkingNum1.Status %></p>
+                          <p class="not-available">Not Available</p>
+                        </form>
+                      <% } %>
+                    </div>
+                  </div>
+                    
+                    
+                    <div class="modal fade" id="editModal<%= parkingItem._id %>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Modal Title</h5>
+        
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+                          </div>
+                          <div class="modal-body">
+                            <p class="parkingstatus">Status: <%= parkingItem.ParkingNum1.Status %></p>
+                            <p class="parkingstatus">Unit: <%= parkingItem.UnitNumber %></p>
+                            <p class="parkingstatus">Unit: <%= parkingItem.Date %></p>
+                            <p class="parkingstatus">Parking Number: <%= parkingItem.ParkingNum1.parkingNum %></p>
+                      
+                          </div>
+                          <div class="modal-footer">
+                            
+                            <button type="button" class="btn btn-success">Book</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  <% } %>
+                <% }); %>
+              </div>

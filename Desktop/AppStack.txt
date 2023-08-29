@@ -1,0 +1,34 @@
+HTML: Markup language for creating web pages.
+
+CSS: Styling language used to define the appearance of HTML elements.
+
+Bootstrap: CSS framework for building responsive and mobile-first websites.
+
+EJS (Embedded JavaScript): Templating engine for generating dynamic HTML content.
+
+Express.js: Web application framework for Node.js used to build the server-side application.
+
+MongoDB: NoSQL database used for storing data.
+
+Mongoose: MongoDB object modeling tool for Node.js used to define schemas and models for interacting with MongoDB.
+
+Body-parser: Middleware for parsing request bodies.
+
+Express-session: Middleware for managing user sessions.
+Passport.js: Authentication middleware for Node.js used for user authentication and session management.
+
+Passport-local: Passport.js strategy for authenticating with a username and password.
+
+Connect-mongo: MongoDB session store for Express.js sessions.
+
+JavaScript: Programming language used for implementing dynamic functionality on the client and server sides.
+
+Git: Version control system for tracking changes in code.
+
+GitHub: Web-based hosting service for Git repositories.
+
+npm (Node Package Manager): Package manager for installing and managing Node.js packages.
+
+Visual Studio Code: Integrated development environment (IDE) for writing and editing code.
+
+Cyclic: Cloud platform used for deploying and hosting web applications.

@@ -1,0 +1,226 @@
+//final admin 
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+
+import 'LocationDesigns.dart';
+
+class AminOpenSeaMap extends StatefulWidget {
+  @override
+  State<AminOpenSeaMap> createState() => _AminOpenSeaMapState();
+}
+
+class _AminOpenSeaMapState extends State<AminOpenSeaMap> {
+  List<Map<String, dynamic>> trucks = [
+    {
+      "UserEmail": "Employee1@gmail.com",
+      "TruckName": "Truck 16",
+      "imageURL": "https://cdn-icons-png.flaticon.com/128/6091/6091749.png",
+      "latitude": -26.03586106072515,
+      "longitude": 28.06536941816955,
+      "LoadedTime": "10:40AM",
+      "Destination": "To Drilling Site",
+    },
+    {
+      "UserEmail": "Employee2@gmail.com",
+      "TruckName": "Truck 15",
+      "imageURL": "https://i.ibb.co/9V2Dhs1/vehicle.png",
+      "latitude": -26.03330916938427,
+      "longitude": 28.061290698765504,
+      "LoadedTime": "08:40AM",
+      "Destination": "To DumpSite",
+    },
+  ];
+
+  List<LatLng> polylinePoints = [
+    LatLng(-26.035222108811237, 28.06321170452672),
+    LatLng(-26.035131962240886, 28.063436348951857),
+    LatLng(-26.035206673205845, 28.063594599287484),
+    LatLng(-26.035250053746683, 28.06365360788538),
+    LatLng(-26.035353684973778, 28.063793082753143),
+    LatLng(-26.035404295539777, 28.063870866814007),
+    LatLng(-26.035454906083945, 28.0639915662188),
+    LatLng(-26.035498286532995, 28.064088125742632),
+    LatLng(-26.03550551660627, 28.06410153678761),
+    LatLng(-26.03549346648389, 28.0642249184014),
+    LatLng(-26.035418755696238, 28.064573605573813),
+    LatLng(-26.035329584693844, 28.06484987310342),
+    LatLng(-26.035269333979187, 28.06501885227013),
+    LatLng(-26.035242823654926, 28.06512345842095),
+    LatLng(-26.035218723354944, 28.065182467018847),
+    LatLng(-26.035201853142002, 28.065214653526795),
+    LatLng(-26.03433672940058, 28.06468856324371),
+    LatLng(-26.033469108779308, 28.064173579116602),
+    LatLng(-26.032948533326135, 28.06383025636519),
+    LatLng(-26.032668964073707, 28.06363713731752),
+    LatLng(-26.032938893025456, 28.062875389953554),
+    LatLng(-26.033016015468043, 28.06255352486779),
+    LatLng(-26.033044936370537, 28.062188744444416),
+    LatLng(-26.03314298652603, 28.061453091880406),
+    LatLng(-26.033240264325283, 28.06132227520451),
+    LatLng(-26.03330916938427, 28.061290698765504),
+    LatLng(-26.03334159528039, 28.061227545887487),
+    LatLng(-26.033382127637907, 28.06122303496763),
+    LatLng(-26.0335726295307, 28.061250100486777),
+    LatLng(-26.03364558762046, 28.061295209685362),
+  ];
+
+  List<LatLng> polylinePoints2 = [
+    LatLng(-26.035215174378195, 28.065219214465806),
+    LatLng(-26.035388696432754, 28.065294316317676),
+    LatLng(-26.03558149841454, 28.06536941816955),
+    LatLng(-26.03586106072515, 28.06549816420133),
+    LatLng(-26.036343063144116, 28.06575565626488),
+    LatLng(-26.03670938365773, 28.06590585996862),
+  ];
+
+  Stream<List<Marker>> get markerStream async* {
+    while (true) {
+      List<Marker> markers = generateMarkers(trucks);
+      yield markers;
+      await Future.delayed(Duration(seconds: 2)); // Adjust the delay as needed
+    }
+  }
+
+  List<Marker> generateMarkers(List<Map<String, dynamic>> trucks) {
+    List<Marker> markers = [];
+
+    for (var truck in trucks) {
+      markers.add(
+        Marker(
+          width: 200.0,
+          height: 100.0,
+          point: LatLng(truck['latitude'], truck['longitude']),
+          builder: (ctx) => Container(
+            child: Column(
+              children: [
+                Text(
+                  truck['TruckName'],
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 13.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: ctx,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(truck['UserEmail']),
+                          content: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(truck['LoadedTime']),
+                              Text(truck['Destination']),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Close'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    height: 40,
+                    child: Image.network(truck['imageURL']),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    return markers;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 0, 37, 68),
+      body: StreamBuilder<List<Marker>>(
+        stream: markerStream,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          List<Marker> markers = snapshot.data!;
+
+          return FlutterMap(
+            options: MapOptions(
+              center: LatLng(-26.03576473169376, 28.062403485077136),
+              zoom: 17.0,
+            ),
+            children: [
+              // TileLayer(
+              //   urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              // ),
+              PolylineLayer(
+                polylines: [
+                  Polyline(
+                    points: polylinePoints,
+                    color: Colors.blue,
+                    strokeWidth: 5.0,
+                    isDotted: false,
+                  ),
+                  Polyline(
+                    points: polylinePoints2,
+                    color: Colors.blue,
+                    strokeWidth: 5.0,
+                    isDotted: false,
+                  ),
+                ],
+              ),
+              MarkerLayer(
+                markers: [
+                  ...markers,
+                  Marker(
+                    width: 150.0,
+                    height: 80.0,
+                    point: LatLng(-26.033287, 28.064265),
+                    builder: (ctx) => ProductionSite(),
+                  ),
+                  Marker(
+                    width: 100.0,
+                    height: 80.0,
+                    point: LatLng(-26.037100, 28.061197),
+                    builder: (ctx) => BoomGate(),
+                  ),
+                  Marker(
+                    width: 100.0,
+                    height: 80.0,
+                    point: LatLng(-26.03515733363629, 28.06526212980973),
+                    builder: (ctx) => ExitSite(),
+                  ),
+                  Marker(
+                    width: 100.0,
+                    height: 80.0,
+                    point: LatLng(-26.03376473169376, 28.061403485077136),
+                    builder: (ctx) => DumpSite(),
+                  ),
+                  Marker(
+                    width: 100.0,
+                    height: 80.0,
+                    point: LatLng(-26.036714, 28.065993),
+                    builder: (ctx) => DrilingSite(),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}

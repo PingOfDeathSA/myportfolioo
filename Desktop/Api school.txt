@@ -1,0 +1,75 @@
+app.post('/dashboard', (req, res) => {
+  // Access the globalUser value sent in the request body
+  const globalUser = req.body.globalUser;
+  console.log('global user is', globalUser);
+
+  LearnerInfomodel.findOne({ email_address: globalUser })
+  .then(function (learnerInformation) {
+
+    // Checking learnerInfoSchema's performence
+    const LearnerMarks = learnerInformation.OnlineTest;
+   const LearnerGarage = learnerInformation.GradeID;
+    let totalMarks = 0;
+    for (let i = 0; i < LearnerMarks.length; i++) {
+      totalMarks += LearnerMarks[i].Mark;
+    } 
+    const averageMark = totalMarks / LearnerMarks.length;
+    //  console.log("Average Mark:", averageMark);
+    // Find underperforming subjects (marks below 50%)
+    const underperformingSubjects = LearnerMarks.filter(subject => {
+      return (subject.Mark / 100) * 100 < 50; // Assuming marks are out of 100
+    });
+    const VeryBadMark = LearnerMarks.filter(subject => {
+      return (subject.Mark / 100) * 100 < 30; // Assuming marks are out of 100
+    });
+    const distintion  = LearnerMarks.filter(subject => {
+      return (subject.Mark / 100) * 100 >= 80; // Assuming marks are out of 100
+    });
+    // console.log("Bad Subjects: ",VeryBadMark);
+    // console.log("Bad Subjects: ",distintion);
+    const LearnerSunjects = learnerInformation.subject;
+    TeacherInfomodel.find({ GradeID: LearnerGarage, subject: { $in: LearnerSunjects } })
+    .then(function (TeachersInformation) {
+      function isTeachingSubject(subjects) {
+        for (const subject of subjects) {
+          if (LearnerSunjects.includes(subject)) {
+            return true;
+          }
+        }
+        return false;
+      }
+      // Filter teachers who teach any subject in LearnerSunjects and extract required info
+      const teachersTeachingLearnerSubjects = TeachersInformation.filter((teacher) =>
+        isTeachingSubject(teacher.subject)
+      ).map(({ first_name, last_name,email_adsress,Contact_Details, title,teacher_profile_picture, subject }) => ({
+        teacher_firtName: first_name,
+        teacher_Last_Name: last_name,
+         tearcher_email: email_adsress,
+        Teacher_phone_Number: Contact_Details,
+        Teacher_Title: title,
+        Teacher_Profile_picture: teacher_profile_picture,
+        subjectsTeaching: subject.filter((sub) => LearnerSunjects.includes(sub))
+      }));     
+      console.log(teachersTeachingLearnerSubjects);
+      // console.log(TeachersInformation);
+      const Userfinalinfor = {
+        teachersTeachingLearnerSubjects:teachersTeachingLearnerSubjects,
+        learnerInformation: learnerInformation,
+        LearnerMarks: LearnerMarks,
+        underperformingSubjects:underperformingSubjects,
+        averageMark:averageMark,
+        VeryBadMark:VeryBadMark,
+        distintion:distintion,
+      };
+      res.send(200)
+         console.log('User authenticated:', Userfinalinfor);
+      // You can work with the teacher information here
+    })
+    // Continue with the rest of your code or any other operations using LearnerXandY
+  })
+  .catch(function (err) {
+    console.log('Database error:', err);
+    res.sendStatus(500);
+  });
+
+});

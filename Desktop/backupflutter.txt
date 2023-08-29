@@ -1,0 +1,74 @@
+
+app.get('/', function (req, res) {
+  const username = req.body.username; // Assuming the username is sent in the request body
+
+  // console.log('UserNumber:', username);
+      const targetUserNumber = '230845';
+  
+  
+      const targetUser = StudentsLogin.find((user) => user.UserNumber === targetUserNumber);
+    
+  
+      
+      if (targetUser) {
+        const UserFollowers = Followers.find((userinfor) => userinfor.UserNumber === targetUser.UserNumber)
+        // console.log(' infor is ',UserFollowers)
+        const UserFollowing = Followers.find((userinfo2) => userinfo2.UserNumber === targetUser.UserNumber)
+        // console.log(' infor is ',UserFollowing)
+  
+  
+  const findUserInfo = UserProfiles.find((userinfor) => userinfor.UserNumber === targetUser.UserNumber)
+  // console.log(' infor is ',findUserInfo)
+   const Userfinalinfor = {
+    UserFollowers: UserFollowers,
+    findUserInfo: findUserInfo,
+    UserFollowing: UserFollowing,
+  
+   }
+   res.send(Userfinalinfor)
+  
+      } else {
+        res.send('User not found');
+      }
+      
+      
+    });
+
+
+    app.post('/', function (req, res) {
+
+
+  const username = req.body.username; // Assuming the username is sent in the request body
+
+  console.log('UserNumber:', username);
+      const targetUserNumber = '230845';
+  
+  
+      const targetUser = StudentsLogin.find((user) => user.UserNumber === targetUserNumber);
+    
+  
+      
+      if (targetUser) {
+        const UserFollowers = Followers.find((userinfor) => userinfor.UserNumber === targetUser.UserNumber)
+        // console.log(' infor is ',UserFollowers)
+        const UserFollowing = Followers.find((userinfo2) => userinfo2.UserNumber === targetUser.UserNumber)
+        // console.log(' infor is ',UserFollowing)
+  
+  
+  const findUserInfo = UserProfiles.find((userinfor) => userinfor.UserNumber === targetUser.UserNumber)
+  // console.log(' infor is ',findUserInfo)
+   const Userfinalinfor = {
+    UserFollowers: UserFollowers,
+    findUserInfo: findUserInfo,
+    UserFollowing: UserFollowing,
+  
+   }
+   res.send(Userfinalinfor)
+  
+      } else {
+        res.send('User not found');
+      }
+      
+      
+    });
+
